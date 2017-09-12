@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html ng-app='helloworld'>
+
+<head>
+  <meta charset="utf-8">
+  <title>Mandala</title>
+</head>
+
+<body>
+  <p>mandala</p>
+  <a ui-sref="hello" ui-sref-active="active">Hello</a>
+  <a ui-sref="about" ui-sref-active="active">About</a>
+  <ui-view></ui-view>
+  <script src="/node_modules/angular/angular.js"></script>
+  <script src="/node_modules/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
