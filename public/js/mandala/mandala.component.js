@@ -31,8 +31,6 @@
     }
 
     vm.undo = function(){
-      console.log('undo');
-      console.log(vm.currentpath, vm.mem_fill);
       vm.currentpath.style.fill = vm.mem_fill;
     }
 
@@ -45,7 +43,6 @@
       }
 
       vm.current_color = document.getElementById('colorpicker').value;
-      console.log(this.style.fill, vm.current_color);
       this.style.fill = vm.current_color;
     }
   }

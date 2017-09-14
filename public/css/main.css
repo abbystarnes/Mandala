@@ -1,5 +1,5 @@
 .svg-container {
-  max-width: 50%;
+  max-width: 800px;
   margin: 0 auto; }
 
 body {
@@ -12,11 +12,8 @@ svg {
   margin: 0 auto;
   display: block; }
 
-body {
-  background-color: #595859; }
-
 .st0 {
   transition: all .5s ease-in-out; }
 
-.st0:hover {
+.st0:hover, .st0:active, .st0:focus {
   cursor: pointer; }
