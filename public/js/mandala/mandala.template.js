@@ -4,4 +4,5 @@
 	 viewBox="0 0 424 644" style="enable-background:new 0 0 424 644;" xml:space="preserve">
 </svg>
 </div>
-<button id="undo_btn" ng-click="$ctrl.undo()">undo</button
+<button id="undo_btn" ng-click="$ctrl.undo()">undo</button>
+<button id="save_btn" ng-click="$ctrl.save()">save</button>

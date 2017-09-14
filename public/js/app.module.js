@@ -2,9 +2,9 @@
 
 const app = angular.module('myApp', []);
 
-const env = 'development';
-const config = require('../../knexfile.js')[env];
-const knex = require('knex')(config);
+// const env = 'development';
+// const config = require('../../knexfile.js')[env];
+// const knex = require('knex')(config);
 
 // knex('movies').then((result) => {
 //   console.log(result);
@@ -16,4 +16,4 @@ const knex = require('knex')(config);
 //   process.exit(1);
 // });
 
-knex.destroy();
+// knex.destroy();

@@ -14,11 +14,11 @@
     vm.$onInit = onInit
 
     function onInit() {
-      $http.get('img/mandalas/mandala1.svg').
+      $http.get('img/templates/2.svg').
        then(function onSuccess(response) {
           vm.element = response.data;
           vm.currentpath;
-          vm.mem_fill =
+          vm.mem_fill;
           vm.svg = document.getElementById('svg');
           vm.svg.innerHTML = response.data;
           vm.paths = document.getElementsByClassName("st0");
@@ -32,6 +32,19 @@
 
     vm.undo = function(){
       vm.currentpath.style.fill = vm.mem_fill;
+    }
+
+    vm.save = function(){
+      vm.colors = [];
+      for (let x = 0; x < vm.paths.length; x++){
+        if (vm.paths[x].style.fill){
+          vm.colors.push(vm.paths[x].style.fill);
+        } else {
+          vm.colors.push('#fff');
+        }
+      }
+      console.log(vm.colors);
+      console.log(vm.colors.join(','));
     }
 
     vm.changeColor = function(){
