@@ -6,3 +6,23 @@
 body {
   background-color: grey;
 }
+
+svg {
+  width: 1200px;
+  max-height: 100vh;
+  max-width: 90%;
+  margin: 0 auto;
+  display: block;
+}
+
+body {
+  background-color: #595859;
+}
+
+.st0 {
+  transition: all .5s ease-in-out;
+}
+
+.st0:hover {
+  cursor: pointer;
+}
