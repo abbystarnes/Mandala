@@ -16,9 +16,13 @@
   "dependencies": {
     "angular": "^1.6.6",
     "angular-ui-router": "^1.0.3",
+    "chai": "^4.1.2",
+    "express": "^4.15.4",
     "knex": "^0.13.0",
     "lite-server": "^2.3.0",
+    "mocha": "^3.5.3",
     "pg": "^7.3.0",
-    "spectrum-colorpicker": "^1.8.0"
+    "spectrum-colorpicker": "^1.8.0",
+    "supertest": "^3.0.0"
   }
 }
