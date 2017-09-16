@@ -2,15 +2,25 @@ process.env.NODE_ENV = 'test';
 
 const request = require('supertest');
 const expect = require('chai').expect;
-const app = require('../db/routes/routes.js');
-const knex = require('../');
+const app = require('../db/index.js');
+const knex = require('../db/knexfile.js');
 
 
+// describe('GET /', () => {
+//     it('responds with JSON', done => {
+//       console.log('here');
+//       request(app)
+//           .get('/users')
+//           .expect('Content-Type', /text/)
+//           .expect(404, done);
+//     });
+// });
 
 // get users
     // return array of users objects
 describe('GET /users', () => {
     it('responds with JSON', done => {
+      console.log('here');
       request(app)
           .get('/users')
           .expect('Content-Type', /json/)

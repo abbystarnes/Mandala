@@ -1,13 +1,17 @@
-const express = require('express')
-const router = express.Router()
+'use strict';
+
+const express = require('express');
+const router = express.Router();
 const knex = require('../db')
 
 // get users
     // return array of users objects
+
 router.get('/users', (req, res, next) => {
-  console.log('route running');
   knex('users')
-    .then(data => res.json(data))
+    .then(function(data){
+      res.json(data)
+    })
     .catch(err => next(err))
 })
 
