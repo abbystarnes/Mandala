@@ -2,7 +2,7 @@ module.exports = {
 
   test: {
     client: 'pg',
-    connection: 'postgres://localhost/m_cap'
+    connection: 'postgres://localhost/m_cap_test'
   },
 
   development: {

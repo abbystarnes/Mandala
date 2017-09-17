@@ -10,6 +10,7 @@ const knex = require('../db')
 router.get('/users', (req, res, next) => {
   knex('users')
     .then(function(data){
+      // console.log(data);
       res.json(data)
     })
     .catch(err => next(err))
@@ -18,8 +19,28 @@ router.get('/users', (req, res, next) => {
 // get user/:id
   // return user object
 
+router.get('/users/:id', (req, res, next) => {
+  knex('users')
+    .where({id: req.params.id})
+    .then(function(data){
+      // console.log(data);
+      res.json(data)
+    })
+    .catch(err => next(err))
+})
+
 // post user/:id
   // return new user object
+router.post('/users', (req, res, next) => {
+  knex('users')
+    .insert({id: req.body.id, user_name: req.body.user_name, email: req.body.email, hashed_pwd: req.body.hashed_pwd})
+    .returning('*')
+    .then(function(data){
+      // console.log(data);
+      res.json(data)
+    })
+    .catch(err => next(err))
+})
 
 // get templates
   // return all templates
