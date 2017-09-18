@@ -71,11 +71,30 @@ router.get('/fills/:id', (req, res, next) => {
 // patch fills/:id
    // update fills array where fill_id is current fill_id
    // return updated fills object
+ router.patch('/fills/:id', (req, res, next) => {
+     knex('fills')
+      .update('color_array', req.body.color_array)
+      .where('id', req.params.id)
+     .then(function(data){
+       res.json(data)
+     })
+     .catch(err => next(err))
+ })
+
 
 // post fills/:id
     // insert new item into fills
     // insert new item into users_fills
     // return new fill object, new users_fills object
+router.post('/fills', (req, res, next) => {
+    knex('fills')
+    .insert({color_array: req.body.color_array, template_id: req.body.template_id})
+    .returning('id')
+    .then(function(data){
+      res.json(data)
+    })
+    .catch(err => next(err))
+})
 
 // delete fills/:id
   // remove item from fills
