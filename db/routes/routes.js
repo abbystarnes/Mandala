@@ -86,17 +86,33 @@ router.get('/fills/:id', (req, res, next) => {
     // insert new item into fills
     // insert new item into users_fills
     // return new fill object, new users_fills object
-router.post('/fills', (req, res, next) => {
+router.post('/fills/:id', (req, res, next) => {
     knex('fills')
     .insert({color_array: req.body.color_array, template_id: req.body.template_id})
     .returning('id')
-    .then(function(data){
-      res.json(data)
+    .then(function(response){
+      knex('users_fills')
+      .insert({user_id: req.params.id[0], fill_id: response[0]})
+      .returning('*')
+      .then(function(data){
+        let ret_val = [response[0], data[0]];
+        res.json(ret_val);
+      })
     })
     .catch(err => next(err))
+
 })
 
 // delete fills/:id
+router.delete('/fills/:id', (req, res, next) => {
+    knex('fills')
+    .where('id', req.params.id)
+    .del()
+    .then(function(data){
+        res.json(data);
+    })
+    .catch(err => next(err))
+})
   // remove item from fills
   // item should autoremove from users_fills?
   // return removed object, removed users_fills object
