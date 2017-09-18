@@ -155,6 +155,27 @@ describe('POST /users', () => {
 
 
 // get templates
+describe('GET /templates', () => {
+    it('responds with JSON', done => {
+      request(app)
+          .get('/templates')
+          .expect('Content-Type', /json/)
+          .expect(200, done);
+    });
+
+    it('returns an array of all template objects', done => {
+      request(app)
+      .get('/templates')
+      .end((err, res) => {
+        expect(res.body).to.deep.equal([
+          {id: 1, file_path: 'img/templates/1.svg'},
+          {id: 2, file_path: 'img/templates/2.svg'},
+          {id: 3, file_path: 'img/templates/3.svg'}
+        ]);
+          done();
+      });
+    });
+});
 
 
   // return all templates
@@ -162,6 +183,25 @@ describe('POST /users', () => {
 // get fills/:id
     // get fills where user_id is user_id (join fills fills_users)
     // return array of fills objects
+describe('GET /fills/1', () => {
+    it('responds with JSON', done => {
+      request(app)
+          .get('/fills/1')
+          .expect('Content-Type', /json/)
+          .expect(200, done);
+    });
+
+    it('returns an array of all fill objects associated with user id', done => {
+      request(app)
+      .get('/fills/1')
+      .end((err, res) => {
+        expect(res.body).to.deep.equal([
+          {id: 1, template_id: 2, color_array: 'rgb(102, 245, 240),rgb(142, 245, 102),rgb(142, 245, 102),#fff,rgb(142, 245, 102),rgb(245, 187, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(245, 187, 102),rgb(142, 245, 102),#fff,rgb(245, 187, 102),rgb(142, 245, 102),#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff', user_id: 1, fill_id: 1, email: 'test1@gmail.com', hashed_pwd: 'alewjfkasdfje', user_name: 'test1'}
+        ]);
+          done();
+      });
+    });
+});
 
 // patch fills/:id
    // update fills array where fill_id is current fill_id

@@ -44,10 +44,29 @@ router.post('/users', (req, res, next) => {
 
 // get templates
   // return all templates
+router.get('/templates', (req, res, next) => {
+  knex('templates')
+    .then(function(data){
+      // console.log(data);
+      res.json(data)
+    })
+    .catch(err => next(err))
+})
 
 // get fills/:id
     // get fills where user_id is user_id (join fills fills_users)
     // return array of fills objects
+router.get('/fills/:id', (req, res, next) => {
+  knex('fills')
+    .join('users_fills', 'fills.id', 'users_fills.fill_id')
+    .join('users', 'users.id', 'users_fills.user_id')
+    .where({user_id: req.params.id})
+    .then(function(data){
+      // console.log(data);
+      res.json(data)
+    })
+    .catch(err => next(err))
+})
 
 // patch fills/:id
    // update fills array where fill_id is current fill_id
