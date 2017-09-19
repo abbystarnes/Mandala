@@ -12,17 +12,21 @@
     const vm = this
     vm.elements = [];
     vm.templates = appService.templates;
+    vm.fills = appService.fills;
     vm.template_thumbnails = [];
     vm.$onInit = onInit
     function onInit() {
-      appService.getTemplates.then( function(){
-        // console.log(vm.templates, vm.templates[2]);
-        for (let x = 0; x < vm.templates.length; x++){
-          // console.log('calling');
-          // console.log(vm.templates[x], x);
-          vm.createTemplateThumbnails(vm.templates[x].file_path, x);
-        }
+
+      appService.getFills.then(function(data){
+        // console.log(vm.fills);
+        appService.getTemplates.then( function(){
+          for (let x = 0; x < vm.templates.length; x++){
+            // console.log(vm.templates[x], x);
+            vm.createTemplateThumbnails(vm.templates[x].file_path, x, vm.templates[x].id, data);
+          }
+        });
       });
+
 
       // promise.then((templates) =>{
       //   console.log(templates[2], 'here');
@@ -54,13 +58,49 @@
 
     // vm.createTemplateThumbnails(response.data[x].file_path);
     //
-    vm.createTemplateThumbnails = function(template_url, index){
+
+    // ([,])#
+    //
+    // ([,])r
+    // /([,])(?=r)/
+    // /([,])(?=#)/
+
+    vm.createTemplateThumbnails = function(template_url, index, template_id, fills){
       $http.get(template_url).
       then(function onSuccess(response){
+
         vm.empty_svgs = document.getElementsByClassName('thumbnail');
-        console.log(vm.empty_svgs, index, template_url, 'here');
-        console.log(response.data);
         vm.empty_svgs[index].innerHTML = response.data;
+        for (let y = 0; y < fills.length; y++){
+          if (fills[y].template_id === template_id) {
+            let paths = vm.empty_svgs[index].getElementsByClassName('st0');
+            fills[y].color_array = fills[y].color_array.split(/([,])(?=#)|([,])(?=r)/);
+
+            let counter = 0;
+            vm.dedup = function(array){
+              if(!array.length){
+                return;
+              }
+              if(counter >= array.length){
+                return;
+              }
+              if (array[counter] === undefined || array[counter] === ","){
+                array.splice(counter, 1);
+                return vm.dedup(array);
+              } else {
+                counter ++;
+                return vm.dedup(array);
+              }
+            }
+
+            vm.dedup(fills[y].color_array);
+            for (let x = 0; x < paths.length; x++){
+              paths[x].style.fill = fills[y].color_array[x];
+            }
+            console.log(paths[0].style.fill, fills[y].color_array[0]);
+          }
+        }
+
         // vm.templates.push(response.data);
       })
     }

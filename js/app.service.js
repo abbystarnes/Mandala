@@ -9,6 +9,8 @@
   function service($http) {
     const vm = this;
     vm.templates = [];
+    vm.fills = [];
+    vm.user_id = 1;
     const app = 'https://mandala-capstone-server.herokuapp.com';
 
     vm.getUsers = function() {
@@ -65,14 +67,15 @@
 
     // vm.getTemplates();
 
-    vm.getFill = function(id) {
-      $http.get(`${app}/fills/${id}`).then(function (response){
-        console.log(response, 'response');
-      })
-      return;
-    }
 
-    // vm.getFill(1);
+    vm.getFills = new Promise(function(resolve, reject) {
+      $http.get(`${app}/fills/${vm.user_id}`).then(function (response){
+        for (let y = 0; y < response.data.length; y++){
+          vm.fills.push(response.data[y]);
+        }
+        resolve(vm.fills);
+      })
+    })
 
     vm.patchFill = function(id) {
       vm.updatedFill = {
