@@ -16,7 +16,12 @@
     vm.$onInit = onInit
     function onInit() {
       appService.getTemplates.then( function(){
-        console.log(vm.templates, vm.templates[2]);
+        // console.log(vm.templates, vm.templates[2]);
+        for (let x = 0; x < vm.templates.length; x++){
+          // console.log('calling');
+          // console.log(vm.templates[x], x);
+          vm.createTemplateThumbnails(vm.templates[x].file_path, x);
+        }
       });
 
       // promise.then((templates) =>{
@@ -52,8 +57,10 @@
     vm.createTemplateThumbnails = function(template_url, index){
       $http.get(template_url).
       then(function onSuccess(response){
-        vm.empty_svgs = document.getElementsByClassName('template');
-        console.log(vm.empty_svgs[index], index, template_url, 'here');
+        vm.empty_svgs = document.getElementsByClassName('thumbnail');
+        console.log(vm.empty_svgs, index, template_url, 'here');
+        console.log(response.data);
+        vm.empty_svgs[index].innerHTML = response.data;
         // vm.templates.push(response.data);
       })
     }
