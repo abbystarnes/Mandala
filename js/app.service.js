@@ -58,7 +58,7 @@
       return;
     }
 
-    vm.getFill(1);
+    // vm.getFill(1);
 
     vm.patchFill = function(id) {
       vm.updatedFill = {
