@@ -20,3 +20,7 @@ svg {
 
 .side-nav {
   max-width: 250px; }
+
+.side-nav li > .mandala-link {
+  display: block;
+  height: 100%; }
