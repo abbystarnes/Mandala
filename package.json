@@ -2,7 +2,11 @@
   "name": "mandala",
   "version": "1.0.0",
   "description": "A meditative coloring web application for all ages.",
-  "main": "index.js",
+  "main": "app.js",
+  "engines": {
+    "node": "7.10.0",
+    "npm": "4.2.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
