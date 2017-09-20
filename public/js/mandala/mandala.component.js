@@ -127,6 +127,8 @@
 
       vm.current_color = document.getElementById('colorpicker').value;
       this.style.fill = vm.current_color;
+      console.log(vm.current_fill.id, vm.current_fill.color_array);
+      appService.patchFill(vm.current_fill.id, vm.current_fill.color_array)
     }
   }
 
