@@ -78,7 +78,7 @@
     })
 
     vm.patchFill = function(id, updated_fill_array) {
-      console.log(updated_fill_array);
+      // console.log(updated_fill_array);
       vm.updatedFill = {
         color_array: updated_fill_array
       }
