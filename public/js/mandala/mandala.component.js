@@ -112,10 +112,8 @@
     // }
 
     vm.changeColor = function(){
-      console.log('clicking in change');
 
       let current_color = document.getElementById('colorpicker').value;
-      console.log(current_color, 'hey color', this);
       this.style.fill = current_color;
 
       vm.currentpath = this;
@@ -127,8 +125,8 @@
 
       vm.current_color = document.getElementById('colorpicker').value;
       this.style.fill = vm.current_color;
-      console.log(vm.current_fill.id, vm.current_fill.color_array);
-      appService.patchFill(vm.current_fill.id, vm.current_fill.color_array)
+      appService.patchFill(vm.current_fill.id, vm.current_fill.color_array.toString());
+      // vm.selectMandala = function(template_id, template_file_path);
     }
   }
 
