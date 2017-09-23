@@ -13,15 +13,20 @@
 
     $stateProvider
     // .state({
-    //     name: 'mandala',
+    //     name: 'welcome',
     //     url: '/',
-    //     component: 'mandala',
+    //     component: 'welcome',
     //   })
-      .state({
-        name: 'login',
+    .state({
+        name: 'mandala',
         url: '/',
-        component: 'login',
+        component: 'mandala',
       })
+      // .state({
+      //   name: 'login',
+      //   url: '/',
+      //   component: 'login',
+      // })
       // .state({
       //   name: 'login',
       //   parent: 'myApp',

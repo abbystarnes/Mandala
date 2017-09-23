@@ -27,14 +27,23 @@
       // update selected svg thumbnail & larger to reflect new fill data
 
     vm.$onInit = function() {
-      appService.getFills.then(function(fills){
-        appService.getTemplates.then(function(){
+        vm.updateFill();
+    }
+
+    vm.updateFill = function() {
+      appService.getTemplates.then(function(){
+        appService.getFills.then(function(){
           for (let x = 0; x < vm.templates.length; x++){
-            vm.colorThumbnails(vm.templates[x].file_path, x, vm.templates[x].id, fills);
+            vm.colorThumbnails(vm.templates[x].file_path, x, vm.templates[x].id, vm.fills);
+            if (vm.current_file_path && vm.current_template_id){
+              vm.selectMandala(vm.current_template_id, vm.current_file_path);
+            }
           }
         });
-      });
+      })
+
     }
+
 
 
     vm.colorThumbnails = function(template_url, index, template_id, fills){
@@ -67,6 +76,7 @@
         let has_fill = false;
         for (let y = 0; y < vm.fills.length; y++){
           if (vm.fills[y].template_id === template_id) {
+            console.log('has a fill already');
             has_fill = true;
             vm.current_fill = vm.fills[y];
             if(!(Array.isArray(vm.fills[y].color_array))){
@@ -76,6 +86,7 @@
               paths[x].style.fill = vm.fills[y].color_array[x];
               paths[x].addEventListener("click", vm.changeColor);
             }
+            return;
           }
         }
         if (has_fill === false) {
@@ -88,52 +99,42 @@
             color_array: new_color_array.toString(),
             template_id: template_id
           }
-          let newpromise = new Promise (function(resolve, reject){
-            resolve(appService.postFill(1, new_fill_obj));
-          });
-          newpromise.then(vm.selectMandala(template_id, template_file_path));
-        }
-
-      })
-      // vm.createTemplateThumbnails(template_file_path, 0, template_id, vm.fills);
-    }
-
-    vm.updateFill = function() {
-      appService.getFills.then(function(data){
-        appService.getTemplates.then(function(){
-          vm.selectMandala(vm.current_template_id, vm.current_file_path);
-          for (let x = 0; x < vm.templates.length; x++){
-            vm.colorThumbnails(vm.templates[x].file_path, x, vm.templates[x].id, data);
-          }
+            appService.postFill(1, new_fill_obj).then(function(){
+              vm.updateFill();
+            });
+          };
         });
-      });
-    }
-
-
-
-
-    vm.getPaths = function(){
-      vm.active_svg = document.getElementsByClassName('active_svg');
-      vm.active_svg = vm.active_svg[0];
-      let updated_paths = vm.active_svg.getElementsByClassName('st0');
-      let updated_paths_array = [];
-      for (let x = 0; x < updated_paths.length; x++){
-        if (updated_paths[x].style.fill) {
-          updated_paths_array.push(updated_paths[x].style.fill);
-        } else {
-          updated_paths_array.push('#fff');
-        }
       }
-      return updated_paths_array;
-    }
+      // vm.createTemplateThumbnails(template_file_path, 0, template_id, vm.fills);
 
-    vm.changeColor = function(){
-      console.log('clicked');
-      let current_color = document.getElementById('colorpicker').value;
-      this.style.fill = current_color;
-      let new_array = vm.getPaths();
-      appService.patchFill(vm.current_fill.id, new_array.toString());
-    }
-  }
 
+
+  //   vm.getPaths = function(){
+  //     vm.active_svg = document.getElementsByClassName('active_svg');
+  //     vm.active_svg = vm.active_svg[0];
+  //     let updated_paths = vm.active_svg.getElementsByClassName('st0');
+  //     let updated_paths_array = [];
+  //     for (let x = 0; x < updated_paths.length; x++){
+  //       if (updated_paths[x].style.fill) {
+  //         updated_paths_array.push(updated_paths[x].style.fill);
+  //       } else {
+  //         updated_paths_array.push('#fff');
+  //       }
+  //     }
+  //     return updated_paths_array;
+  //   }
+  //
+  //   vm.changeColor = function(){
+  //     console.log('clicked');
+  //     let current_color = document.getElementById('colorpicker').value;
+  //     this.style.fill = current_color;
+  //     let new_array = vm.getPaths();
+  //     appService.patchFill(vm.current_fill.id, new_array.toString());
+  //   }
+  //
+  //   vm.save = function(){
+  //     vm.updateFill();
+  //   }
+  // }
+}
 }());
