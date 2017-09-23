@@ -1,7 +1,7 @@
 (function() {
   'use strict'
 
-  angular.module('myApp', [])
+  angular.module('myApp')
     .component('mandala', {
       controller: controller,
       templateUrl: 'js/mandala/mandala.template.js'
