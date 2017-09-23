@@ -2,7 +2,7 @@
 (function() {
   'use strict'
 
-  angular.module('myApp')
+  angular.module('myApp', [])
     .service('appService', service)
 
   service.$inject = ['$http']
@@ -13,6 +13,20 @@
     vm.user_id = 1;
     const app = 'https://mandala-capstone-server.herokuapp.com';
 
+    vm.login = function(email, password) {
+      $http.get(`api/routes/users`).then(function (response){
+        console.log(response);
+      })
+      return;
+    }
+      // user can log in, return id
+        // load thumbnails with fills onto page. If thumbnail is empty, fill with white
+          // make post requests to fill in empty ones
+        // load currently selected svg on main page
+        // color svg
+          // make a patch request to fills
+          // update selected svg thumbnail & larger to reflect new fill data
+
     vm.getUsers = function() {
       $http.get(`api/routes/users`).then(function (response){
         console.log(response);
@@ -20,16 +34,11 @@
       return;
     }
 
-    // vm.getUsers();
-
     vm.getUser = function(id) {
       $http.get(`api/routes/${id}`).then(function (response){
-        // console.log(response);
       })
       return;
     }
-
-    // vm.getUser(2);
 
     vm.postUser = function() {
       vm.userObject = {
@@ -39,36 +48,23 @@
       }
       $http.post(`api/routes/users`, vm.userObject).then(function (response){
         templates = response;
-        // console.log(response);
       })
       return;
     }
 
-    // vm.postUser();
-
     vm.getTemplates = new Promise(function(resolve, reject) {
+      vm.templates = [];
       $http.get(`api/routes/templates`).then(function (response){
         for(let x = 0; x < response.data.length; x++){
-          // console.log(response.data[x].file_path);
           vm.templates.push(response.data[x]);
         }
         resolve(vm.templates);
       })
     })
-    // vm.getTemplates = function() {
-    //   $http.get(`${app}/templates`).then(function (response){
-    //     for(let x = 0; x < response.data.length; x++){
-    //       // console.log(response.data[x].file_path);
-    //       vm.templates.push(response.data[x]);
-    //     }
-    //   })
-    // }
-
-
-    // vm.getTemplates();
 
 
     vm.getFills = new Promise(function(resolve, reject) {
+      vm.fills = [];
       $http.get(`api/routes/fills/${vm.user_id}`).then(function (response){
         for (let y = 0; y < response.data.length; y++){
           vm.fills.push(response.data[y]);
@@ -78,35 +74,23 @@
     })
 
     vm.patchFill = function(id, updated_fill_array) {
-      // console.log(updated_fill_array);
       vm.updatedFill = {
         color_array: updated_fill_array
       }
       $http.patch(`api/routes/fills/${id}`, vm.updatedFill).then(function (response){
-        console.log(response);
       })
       return;
     }
 
 
     vm.postFill = function(user_id, object) {
-      console.log('hitting post service');
-      console.log(user_id, object);
-      /* vm.newFill = {
-      //   color_array: 'rgb(102, 245, 240),rgb(142, 245, 102),rgb(142, 245, 102),#fff,rgb(142, 245, 102),rgb(245, 187, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(245, 187, 102),rgb(142, 245, 102),#fff,rgb(245, 187, 102),rgb(142, 245, 102),#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#000000',
-      //   template_id: 3
-      // } */
       $http.post(`api/routes/fills/${user_id}`, object).then(function (response){
-        console.log(response);
       })
       return;
     }
 
-    // vm.postFill(1);
-
     vm.deleteFill = function(id) {
       $http.delete(`api/routes/fills/${id}`).then(function (response){
-        console.log(response);
       })
       return;
     }

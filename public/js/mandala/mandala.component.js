@@ -1,7 +1,7 @@
 (function() {
   'use strict'
 
-  angular.module('myApp')
+  angular.module('myApp', [])
     .component('mandala', {
       controller: controller,
       templateUrl: 'js/mandala/mandala.template.js'
@@ -10,29 +10,32 @@
   controller.$inject = ['$http', 'appService']
   function controller($http, appService) {
     const vm = this
-    // vm.current_fill;
-    vm.elements = [];
     vm.templates = appService.templates;
     vm.fills = appService.fills;
+    vm.current_fill;
+    vm.elements = [];
     vm.template_thumbnails = [];
     vm.current_file_path;
     vm.current_template_id;
 
+
+    // load thumbnails with fills onto page. If thumbnail is empty, fill with white
+      // make post requests to fill in empty ones
+    // load currently selected svg on main page
+    // color svg
+      // make a patch request to fills
+      // update selected svg thumbnail & larger to reflect new fill data
+
     vm.$onInit = function() {
-      appService.getFills.then(function(data){
-        appService.getTemplates.then( function(){
+      appService.getFills.then(function(fills){
+        appService.getTemplates.then(function(){
           for (let x = 0; x < vm.templates.length; x++){
-            vm.colorThumbnails(vm.templates[x].file_path, x, vm.templates[x].id, data);
+            vm.colorThumbnails(vm.templates[x].file_path, x, vm.templates[x].id, fills);
           }
         });
       });
     }
 
-    vm.selectMandala = function(template_id, template_file_path){
-      // vm.current_file_path = template_file_path;
-      // vm.current_template_id = template_id;
-      // vm.createTemplateThumbnails(template_file_path, 0, template_id, vm.fills);
-    }
 
     vm.colorThumbnails = function(template_url, index, template_id, fills){
       $http.get(template_url).
@@ -46,37 +49,67 @@
               fills[y].color_array = fills[y].color_array.split(/,(?!d| )/);
             }
             for (let x = 0; x < paths.length; x++){
-              // console.log(paths[x], fills[y].color_array[x]);
               paths[x].style.fill = fills[y].color_array[x];
             }
           }
         }
       })
     }
-        // let found_fill = false;
-    // if (svg_class_name === 'active_svg'){
-    //   console.log('active svg has fill array');
-    //   for (let x = 0; x < paths.length; x++){
-    //     paths[x].addEventListener("click", vm.changeColor);
-    //   }
-    // }
-    // if (!found_fill && svg_class_name === 'active_svg'){
-    //   let new_color_array = [];
-    //   let paths = vm.empty_svgs[index].getElementsByClassName('st0');
-    //   for (let x = 0; x < paths.length; x++){
-    //     new_color_array.push('#FFF');
-    //   }
-    //   let new_fill_obj = {
-    //     color_array: new_color_array.toString(),
-    //     template_id: vm.current_template_id
-    //   }
-    //   let newpromise = new Promise (function(resolve, reject){
-    //     console.log('running');
-    //     resolve(appService.postFill(1, new_fill_obj));
-    //   });
-    //   newpromise.then(vm.updateFill());
-    // }
-    // found_fill = false;
+
+    vm.selectMandala = function(template_id, template_file_path){
+      vm.current_file_path = template_file_path;
+      vm.current_template_id = template_id;
+      $http.get(template_file_path).
+      then(function onSuccess(response){
+        vm.empty_svg = document.getElementsByClassName('active_svg');
+        vm.empty_svg[0].innerHTML = response.data;
+        let paths = vm.empty_svg[0].getElementsByClassName('st0');
+        let has_fill = false;
+        for (let y = 0; y < vm.fills.length; y++){
+          if (vm.fills[y].template_id === template_id) {
+            has_fill = true;
+            vm.current_fill = vm.fills[y];
+            if(!(Array.isArray(vm.fills[y].color_array))){
+              vm.fills[y].color_array = vm.fills[y].color_array.split(/,(?!d| )/);
+            }
+            for (let x = 0; x < paths.length; x++){
+              paths[x].style.fill = vm.fills[y].color_array[x];
+              paths[x].addEventListener("click", vm.changeColor);
+            }
+          }
+        }
+        if (has_fill === false) {
+          console.log('needs a new fill');
+          let new_color_array = [];
+          for (let x = 0; x < paths.length; x++){
+            new_color_array.push('#FFF');
+          }
+          let new_fill_obj = {
+            color_array: new_color_array.toString(),
+            template_id: template_id
+          }
+          let newpromise = new Promise (function(resolve, reject){
+            resolve(appService.postFill(1, new_fill_obj));
+          });
+          newpromise.then(vm.selectMandala(template_id, template_file_path));
+        }
+
+      })
+      // vm.createTemplateThumbnails(template_file_path, 0, template_id, vm.fills);
+    }
+
+    vm.updateFill = function() {
+      appService.getFills.then(function(data){
+        appService.getTemplates.then(function(){
+          vm.selectMandala(vm.current_template_id, vm.current_file_path);
+          for (let x = 0; x < vm.templates.length; x++){
+            vm.colorThumbnails(vm.templates[x].file_path, x, vm.templates[x].id, data);
+          }
+        });
+      });
+    }
+
+
 
 
     vm.getPaths = function(){
@@ -95,20 +128,11 @@
     }
 
     vm.changeColor = function(){
+      console.log('clicked');
       let current_color = document.getElementById('colorpicker').value;
       this.style.fill = current_color;
       let new_array = vm.getPaths();
-      // console.log(updated_paths_array);
-      vm.currentpath = this;
-      if (this.style.fill){
-        vm.mem_fill = this.style.fill;
-      } else {
-        vm.mem_fill = '#FFF';
-      }
-      let newpromise = new Promise (function(resolve, reject){
-        resolve(appService.patchFill(vm.current_fill.id, new_array.toString()));
-      });
-      newpromise.then(vm.updateFill());
+      appService.patchFill(vm.current_fill.id, new_array.toString());
     }
   }
 
