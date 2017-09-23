@@ -29,6 +29,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+
+app.use('/api/routes', require('./db/routes/routes.js'));
 //
 // // app.use(data);
 app.use(route);

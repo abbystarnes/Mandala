@@ -1,6 +1,6 @@
 'use strict';
 
-const app = angular.module('myApp', ['ui.materialize']);
+const app = angular.module('myApp', ['ui.router', 'ui.materialize']);
 
 // const env = 'development';
 // const config = require('../../knexfile.js')[env];
