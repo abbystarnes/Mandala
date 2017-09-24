@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
    table.string('user_name');
    table.string('email');
    table.string('hashed_pwd');
- }).raw('ALTER SEQUENCE users_id_seq RESTART WITH 1');
+ });
 };
 
 exports.down = function(knex, Promise) {
