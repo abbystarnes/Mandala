@@ -10,8 +10,6 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/routes');
 const app = express();
 
-const cors = require('cors');
-
 app.disable('x-powered-by');
 
 app.use(morgan('short'));
@@ -22,12 +20,10 @@ app.use(express.static(path.join('public')));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  console.log(res.header);
+  next();
 });
 
-app.use(cors ());
 app.use(routes);
-
 
 app.use((_req, res) => {
   res.sendStatus(404);
@@ -50,24 +46,3 @@ app.listen(port, () => {
 });
 
 module.exports = app;
-
-// const env = 'development';
-// const config = require('./knexfile.js')[env];
-// const knex = require('knex')(config);
-
-// knex('users').then((result) => {
-//   console.log(result);
-//   knex.destroy();
-// })
-// .catch((err) => {
-//   console.error(err);
-//   knex.destroy();
-//   process.exit(1);
-// });
-
-// router.get('/users', (req, res, next) => {
-//   console.log('route running');
-//   knex('users')
-//     .then(data => res.json(data))
-//     .catch(err => next(err))
-// })
