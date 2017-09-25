@@ -39,9 +39,9 @@
           console.log('got fills');
           for (let x = 0; x < vm.templates.length; x++){
             vm.colorThumbnails(vm.templates[x].file_path, x, vm.templates[x].id, vm.fills);
-            // if (vm.current_file_path && vm.current_template_id){
-            //   vm.selectMandala(vm.current_template_id, vm.current_file_path);
-            // }
+            if (vm.current_file_path && vm.current_template_id){
+              vm.selectMandala(vm.current_template_id, vm.current_file_path);
+            }
           }
         });
       })
@@ -108,9 +108,7 @@
             template_id: template_id
           }
             appService.postFill(1, new_fill_obj).then(function(){
-              // console.log('posted');
               vm.updateFill();
-              vm.selectMandala(vm.current_template_id, vm.current_file_path);
             });
           };
         });
