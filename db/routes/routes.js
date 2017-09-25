@@ -47,7 +47,7 @@ router.post('/users', (req, res, next) => {
 router.get('/templates', (req, res, next) => {
   knex('templates')
     .then(function(data){
-      // console.log(data);
+      console.log(data);
       res.json(data)
     })
     .catch(err => next(err))
