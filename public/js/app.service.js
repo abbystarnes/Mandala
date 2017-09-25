@@ -11,7 +11,7 @@
     vm.templates = [];
     vm.fills = [];
     vm.user_id = 1;
-    const app = 'https://mandala-capstone-server.herokuapp.com';
+    // const app = 'https://mandala-capstone-server.herokuapp.com';
 
     vm.login = function(email, password) {
       $http.get(`api/routes/users`).then(function (response){
