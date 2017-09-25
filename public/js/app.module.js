@@ -1,3 +1,3 @@
 'use strict';
 
-const app = angular.module('myApp', ['ui.materialize']);
+const app = angular.module('myApp', ['ui.router', 'ui.materialize']);

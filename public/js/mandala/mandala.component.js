@@ -17,7 +17,7 @@
     vm.template_thumbnails = [];
     vm.current_file_path;
     vm.current_template_id;
-
+    vm.paths;
 
     // load thumbnails with fills onto page. If thumbnail is empty, fill with white
       // make post requests to fill in empty ones
