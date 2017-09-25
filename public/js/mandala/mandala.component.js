@@ -33,10 +33,8 @@
     vm.updateFill = function() {
       appService.getTemplates().then(function(){
         vm.templates = appService.templates;
-        console.log('got templates');
         appService.getFills().then(function(){
           vm.fills = appService.fills;
-          console.log('got fills');
           for (let x = 0; x < vm.templates.length; x++){
             vm.colorThumbnails(vm.templates[x].file_path, x, vm.templates[x].id, vm.fills);
             if (vm.current_file_path && vm.current_template_id){
@@ -84,7 +82,6 @@
         for (let y = 0; y < vm.fills.length; y++){
           if (vm.fills[y].template_id === template_id) {
             // console.log('has a fill already');
-            console.log(vm.fills[y].fill_id, 'fills being used');
             has_fill = true;
             vm.current_fill = vm.fills[y];
             if(!(Array.isArray(vm.fills[y].color_array))){
@@ -98,7 +95,6 @@
           }
         }
         if (has_fill === false) {
-          console.log('needs a new fill');
           let new_color_array = [];
           for (let x = 0; x < paths.length; x++){
             new_color_array.push('#FFF');
@@ -133,11 +129,9 @@
     }
 
     vm.changeColor = function(){
-      console.log('clicked');
       let current_color = document.getElementById('colorpicker').value;
       this.style.fill = current_color;
       let new_array = vm.getPaths();
-      console.log(vm.current_fill.fill_id, 'id here');
       appService.patchFill(vm.current_fill.fill_id, new_array.toString()).then(function(){
         vm.updateFill();
       });

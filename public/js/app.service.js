@@ -25,11 +25,9 @@
       return new Promise(function(resolve, reject){
         vm.templates = [];
         $http.get(`api/routes/templates`).then(function (response){
-          console.log(response, 'templates response');
           for(let x = 0; x < response.data.length; x++){
             vm.templates.push(response.data[x]);
           }
-          console.log(vm.templates, 'templates');
           resolve(vm.templates);
         });
       });
@@ -43,7 +41,6 @@
           for (let y = 0; y < response.data.length; y++){
             vm.fills.push(response.data[y]);
           }
-          console.log(vm.fills, 'fills');
           resolve(vm.fills);
         })
       });
@@ -58,7 +55,6 @@
 
     vm.getUsers = function() {
       $http.get(`api/routes/users`).then(function (response){
-        console.log(response);
       })
       return;
     }
@@ -83,13 +79,11 @@
 
 
     vm.patchFill = function(id, updated_fill_array) {
-      console.log(id, 'fill id');
       return new Promise(function(resolve, reject){
         vm.updatedFill = {
           color_array: updated_fill_array
         }
         $http.patch(`api/routes/fills/${id}`, vm.updatedFill).then(function (response){
-          console.log('patched');
           resolve(response);
         })
       })
@@ -99,7 +93,6 @@
     vm.postFill = function(user_id, object) {
       return new Promise(function(resolve, reject){
         $http.post(`api/routes/fills/${user_id}`, object).then(function (response){
-          console.log(response, 'posted');
           resolve('done');
         })
       })
