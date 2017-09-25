@@ -1,9 +1,9 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('users_fills', function(table){
-    table.increments();
-    table.integer('user_id').references("id").inTable("users").onDelete("cascade").notNull();
-    table.integer('fill_id').references("id").inTable("fills").onDelete("cascade").notNull();
-  }).raw('ALTER SEQUENCE templates_id_seq RESTART WITH 1')
+    table.increments('id');
+    table.integer('user_id');
+    table.integer('fill_id');
+  });
 };
 
 exports.down = function(knex, Promise) {

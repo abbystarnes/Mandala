@@ -4,28 +4,37 @@ const request = require('supertest');
 const expect = require('chai').expect;
 const app = require('../db/index.js');
 const knex = require('../db/db_test');
+const Promise = require('bluebird');
 
-beforeEach(done => {
-  Promise.all([
-    knex('users').insert({id: 1, email: 'test1@gmail.com', hashed_pwd: 'alewjfkasdfje', user_name: 'test1'}),
-    knex('users').insert({id: 2, email: 'test2@gmail.com', hashed_pwd: '34rhadslkjflwj', user_name: 'test2'}),
-    knex('users').insert({id: 3, email: 'test3@gmail.com', hashed_pwd: 'lxjlijlkejaslkj', user_name: 'test3'}),
-    knex('templates').insert({id: 1, file_path: 'img/templates/1.svg'}),
-    knex('templates').insert({id: 2, file_path: 'img/templates/2.svg'}),
-    knex('templates').insert({id: 3, file_path: 'img/templates/3.svg'}),
-  ]).then(() => done());
+Promise.series = (promiseArr) => {
+  return Promise.reduce(promiseArr, (values, promise) => {
+    return promise().then((result) => {
+      values.push(result);
+      return values;
+    });
+  }, []);
+};
+
+let colors = `rgb(102, 245, 240),rgb(142, 245, 102),rgb(142, 245, 102),#fff,rgb(142, 245, 102),rgb(245, 187, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(245, 187, 102),rgb(142, 245, 102),#fff,rgb(245, 187, 102),rgb(142, 245, 102),#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff`;
+
+beforeEach(() =>{
+  return Promise.series([
+    () => knex.raw('TRUNCATE TABLE users_fills cascade'),
+    () => knex.raw('TRUNCATE TABLE fills cascade'),
+    () => knex.raw('TRUNCATE TABLE templates cascade'),
+    () => knex.raw('TRUNCATE TABLE users cascade'),
+    () => knex('templates').insert({file_path: 'img/templates/1.svg'}),
+    () => knex('templates').insert({file_path: 'img/templates/2.svg'}),
+    () => knex('templates').insert({file_path: 'img/templates/3.svg'}),
+    () => knex('users').insert({email: 'test1@gmail.com', hashed_pwd: 'alewjfkasdfje', user_name: 'test1'}),
+    () => knex('users').insert({email: 'test2@gmail.com', hashed_pwd: '34rhadslkjflwj', user_name: 'test2'}),
+    () => knex('users').insert({email: 'test3@gmail.com', hashed_pwd: 'lxjlijlkejaslkj', user_name: 'test3'}),
+    () => knex('fills').insert({template_id: 1, color_array: colors}),
+    () => knex('users_fills').insert({user_id: 1, fill_id: 1})
+  ]);
 });
 
-beforeEach(done => {
-  Promise.all([
-    knex('fills').insert({id: 1, template_id: 2, color_array: 'rgb(102, 245, 240),rgb(142, 245, 102),rgb(142, 245, 102),#fff,rgb(142, 245, 102),rgb(245, 187, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(142, 245, 102),rgb(245, 187, 102),rgb(142, 245, 102),#fff,rgb(245, 187, 102),rgb(142, 245, 102),#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff,#fff'})
-  ]).then(() => done());
-});
-beforeEach(done => {
-  Promise.all([
-    knex('users_fills').insert({id: 1, user_id: 1, fill_id: 1})
-  ]).then(() => done());
-});
+
 
 afterEach(done => {
   Promise.all([
@@ -35,6 +44,7 @@ afterEach(done => {
       knex('users').del()
   ]).then(() => done());
 });
+
 
 
 // get users

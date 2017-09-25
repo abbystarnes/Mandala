@@ -1,7 +1,7 @@
 (function() {
   'use strict'
 
-  angular.module('myApp', [])
+  angular.module('myApp')
     .component('mandala', {
       controller: controller,
       templateUrl: 'js/mandala/mandala.template.js'
@@ -27,14 +27,27 @@
       // update selected svg thumbnail & larger to reflect new fill data
 
     vm.$onInit = function() {
-      appService.getFills.then(function(fills){
-        appService.getTemplates.then(function(){
+        vm.updateFill();
+    }
+
+    vm.updateFill = function() {
+      appService.getTemplates().then(function(){
+        vm.templates = appService.templates;
+        console.log('got templates');
+        appService.getFills().then(function(){
+          vm.fills = appService.fills;
+          console.log('got fills');
           for (let x = 0; x < vm.templates.length; x++){
-            vm.colorThumbnails(vm.templates[x].file_path, x, vm.templates[x].id, fills);
+            vm.colorThumbnails(vm.templates[x].file_path, x, vm.templates[x].id, vm.fills);
+            if (vm.current_file_path && vm.current_template_id){
+              vm.selectMandala(vm.current_template_id, vm.current_file_path);
+            }
           }
         });
-      });
+      })
+
     }
+
 
 
     vm.colorThumbnails = function(template_url, index, template_id, fills){
@@ -57,6 +70,7 @@
     }
 
     vm.selectMandala = function(template_id, template_file_path){
+      // console.log('selecting');
       vm.current_file_path = template_file_path;
       vm.current_template_id = template_id;
       $http.get(template_file_path).
@@ -65,8 +79,12 @@
         vm.empty_svg[0].innerHTML = response.data;
         let paths = vm.empty_svg[0].getElementsByClassName('st0');
         let has_fill = false;
+        // console.log(vm.current_fill.id);
+        // console.log(fills.length, 'fill length');
         for (let y = 0; y < vm.fills.length; y++){
           if (vm.fills[y].template_id === template_id) {
+            // console.log('has a fill already');
+            console.log(vm.fills[y].fill_id, 'fills being used');
             has_fill = true;
             vm.current_fill = vm.fills[y];
             if(!(Array.isArray(vm.fills[y].color_array))){
@@ -76,6 +94,7 @@
               paths[x].style.fill = vm.fills[y].color_array[x];
               paths[x].addEventListener("click", vm.changeColor);
             }
+            return;
           }
         }
         if (has_fill === false) {
@@ -88,27 +107,13 @@
             color_array: new_color_array.toString(),
             template_id: template_id
           }
-          let newpromise = new Promise (function(resolve, reject){
-            resolve(appService.postFill(1, new_fill_obj));
-          });
-          newpromise.then(vm.selectMandala(template_id, template_file_path));
-        }
-
-      })
-      // vm.createTemplateThumbnails(template_file_path, 0, template_id, vm.fills);
-    }
-
-    vm.updateFill = function() {
-      appService.getFills.then(function(data){
-        appService.getTemplates.then(function(){
-          vm.selectMandala(vm.current_template_id, vm.current_file_path);
-          for (let x = 0; x < vm.templates.length; x++){
-            vm.colorThumbnails(vm.templates[x].file_path, x, vm.templates[x].id, data);
-          }
+            appService.postFill(1, new_fill_obj).then(function(){
+              vm.updateFill();
+            });
+          };
         });
-      });
-    }
-
+      }
+      // vm.createTemplateThumbnails(template_file_path, 0, template_id, vm.fills);
 
 
 
@@ -132,8 +137,15 @@
       let current_color = document.getElementById('colorpicker').value;
       this.style.fill = current_color;
       let new_array = vm.getPaths();
-      appService.patchFill(vm.current_fill.id, new_array.toString());
+      console.log(vm.current_fill.fill_id, 'id here');
+      appService.patchFill(vm.current_fill.fill_id, new_array.toString()).then(function(){
+        vm.updateFill();
+      });
     }
-  }
-
+  //
+  //   vm.save = function(){
+  //     vm.updateFill();
+  //   }
+  // }
+}
 }());

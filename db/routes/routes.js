@@ -3,11 +3,9 @@
 const express = require('express');
 const router = express.Router();
 const knex = require('../db')
-const cors = require('cors');
+
 // get users
     // return array of users objects
-    //
-
 
 router.get('/users', (req, res, next) => {
   knex('users')
@@ -49,7 +47,7 @@ router.post('/users', (req, res, next) => {
 router.get('/templates', (req, res, next) => {
   knex('templates')
     .then(function(data){
-      // console.log(data);
+      console.log(data);
       res.json(data)
     })
     .catch(err => next(err))
@@ -73,14 +71,7 @@ router.get('/fills/:id', (req, res, next) => {
 // patch fills/:id
    // update fills array where fill_id is current fill_id
    // return updated fills object
-
-   // app.options('/products/:id', cors()) // enable pre-flight request for DELETE request
-   // app.del('/products/:id', cors(), function (req, res, next) {
-   //   res.json({msg: 'This is CORS-enabled for all origins!'})
-   // })
-
-router.options('/fills/:id', cors());
- router.patch('/fills/:id', cors(), (req, res, next) => {
+ router.patch('/fills/:id', (req, res, next) => {
      knex('fills')
       .update('color_array', req.body.color_array)
       .where('id', req.params.id)
@@ -88,7 +79,7 @@ router.options('/fills/:id', cors());
        res.json(data)
      })
      .catch(err => next(err))
- });
+ })
 
 
 // post fills/:id

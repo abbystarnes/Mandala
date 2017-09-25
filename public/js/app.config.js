@@ -2,7 +2,7 @@
 (function() {
   'use strict';
 
-  angular.module('myApp', []).config(config)
+  angular.module('myApp').config(config)
 
   config.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider']
 
@@ -12,11 +12,21 @@
     $locationProvider.html5Mode(true)
 
     $stateProvider
-      .state({
+    // .state({
+    //     name: 'welcome',
+    //     url: '/',
+    //     component: 'welcome',
+    //   })
+    .state({
         name: 'mandala',
-        url: '/mandala'
-        template: '<p>hey</p>',
+        url: '/',
+        component: 'mandala',
       })
+      // .state({
+      //   name: 'login',
+      //   url: '/',
+      //   component: 'login',
+      // })
       // .state({
       //   name: 'login',
       //   parent: 'myApp',
