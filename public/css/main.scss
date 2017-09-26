@@ -45,6 +45,11 @@ svg {
   max-width: 90%;
   margin: 0 auto;
   display: block;
+  margin-top: 3em;
+}
+
+.active_svg {
+  max-width: 98%;
 }
 
 .st0 {
@@ -124,10 +129,12 @@ welcome {
 }
 
 .header-one {
+  // border: 1px solid $blue-med;
+  width: 100%;
   h1 {
     font-family: 'Lobster Two', cursive;
     font-size: 3em;
-    color: $blue-med;
+    color: $blue-grey;
     margin: 0;
     padding: 0;
     line-height: 1;
@@ -135,7 +142,7 @@ welcome {
   }
   margin: 0;
   padding: 0;
-  margin-left: 1em;
+  padding-left: 1em;
 }
 
 .header-two {
@@ -171,4 +178,58 @@ form {
       border-bottom: 1px solid $blue-med !important;
       box-shadow: 0 1px 0 0 $blue-med !important;
     }
+}
+
+
+.sp-replacer {
+  position: fixed;
+  bottom: 2em;
+  right: 2em;
+  height: 3em;
+  width: 35%;
+  padding: 0;
+  border: 2px solid #9e9e9e;
+}
+
+.sp-preview {
+  height: 100%;
+  width: 100%;
+  border: none;
+  margin: 0;
+}
+
+.sp-dd {
+  display: none;
+}
+
+#colorpicker {
+  display: none;
+}
+
+.side-nav {
+  overflow-y: inherit;
+}
+
+.button-collapse {
+  content: 'hi';
+  color: $blue-grey;
+  bottom: 50%;
+  right: -38px;
+  position: absolute;
+  border: none;
+}
+
+.undo {
+  display: block;
+  position: fixed;
+  bottom: 1.25em;
+  left: 16px;
+}
+
+.clear{
+  // color: $blue-grey;
+  display: block;
+  position: fixed;
+  bottom: 2em;
+  left: 16px;
 }

@@ -1,3 +1,6 @@
+<div class="header-one z-depth-1">
+<h1>mandala</h1>
+</div>
 
 	<div class="svg-container">
 	<?xml version="1.0" encoding="utf-8"?>
@@ -14,8 +17,9 @@
 			</svg></a>
 			</li>
 		</ul>
+		<i href="#" class="button-collapse medium material-icons" data-activates="slide-out" data-sidenav="left" data-menuwidth="500" data-closeonclick="false">play_arrow</i>
 	</div>
 
-	<a href="#" class="button-collapse" data-activates="slide-out" data-sidenav="left" data-menuwidth="500" data-closeonclick="false">
-	    Show side-nav
-	</a>
+
+	<i class="undo material-icons medium">undo</i>
+	<button class=" clear btn blue-grey darken-4">clear</button>

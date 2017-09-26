@@ -10,4 +10,5 @@ $(document).ready(function() {
   //       paths[x].style.fill = "#fff";
   //     }
   //   })
+
 });
