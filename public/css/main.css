@@ -143,13 +143,14 @@ form {
   height: 3em;
   width: 35%;
   padding: 0;
-  border: 2px solid #9e9e9e; }
+  border: none; }
 
 .sp-preview {
   height: 100%;
   width: 100%;
   border: none;
-  margin: 0; }
+  margin: 0;
+  border: 2px solid #9e9e9e; }
 
 .sp-dd {
   display: none; }
@@ -175,6 +176,8 @@ form {
   left: 16px; }
 
 .clear {
+  height: 42px;
+  color: #fff;
   display: block;
   position: fixed;
   bottom: 2em;
