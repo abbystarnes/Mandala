@@ -2,16 +2,17 @@
   'use strict'
 
   angular.module('myApp')
-    .component('login', {
+    .component('signup', {
       controller: controller,
-      templateUrl: 'js/login/login.template.js'
+      templateUrl: 'js/signup/signup.template.js'
     })
 
-  controller.$inject = ['$http', 'appService', '$state', '$location', '$window']
-  function controller($http, appService, $state, $location, $window) {
+  controller.$inject = ['$http', 'appService', '$window', '$location', '$state']
+  function controller($http, appService, $window, $location, $state) {
     const vm = this
     vm.user = {
       'user_name' : '',
+      'email' : '',
       'hashed_pwd' : ''
     };
     vm.$onInit = function() {
@@ -23,10 +24,9 @@
       //   });
       };
 
-
       vm.isDisabled = function(){
         let className
-        if (vm.loginUserForm.$invalid) {
+        if (vm.newUserForm.$invalid) {
           className = 'disabled'
         }
         return className;
@@ -41,13 +41,15 @@
         return vm.className;
       };
 
-    vm.loginUserForm = function () {
-      console.log(vm.user.name, vm.user.hashed_pwd, 'user');
-        appService.login(vm.user);
+
+    vm.createNewUserForm = function () {
+      console.log(vm.user.email, vm.user.name, vm.user.hashed_pwd, 'user');
+        appService.postUser(vm.user);
         delete vm.user;
-        vm.loginForm.$setUntouched();
-         
+        vm.newUserForm.$setUntouched();
+         $state.go('login');
     }
   }
+
 
 }());

@@ -4,8 +4,7 @@
 	 viewBox="0 0 424 644" style="enable-background:new 0 0 424 644;" xml:space="preserve">
 </svg>
 </div>
-<button id="undo_btn" ng-click="$ctrl.undo()">undo</button>
-<button id="save_btn" ng-click="$ctrl.save()">save</button>
+  <input id='colorpicker' />
 <div id="slide-out" class="side-nav">
 	<ul>
 		<li ng-repeat="template in $ctrl.templates">
@@ -15,6 +14,7 @@
 		</li>
 	</ul>
 </div>
+
 <a href="#" class="button-collapse" data-activates="slide-out" data-sidenav="left" data-menuwidth="500" data-closeonclick="false">
     Show side-nav
 </a>

@@ -19,12 +19,6 @@
     vm.current_template_id;
     vm.paths;
 
-    // load thumbnails with fills onto page. If thumbnail is empty, fill with white
-      // make post requests to fill in empty ones
-    // load currently selected svg on main page
-    // color svg
-      // make a patch request to fills
-      // update selected svg thumbnail & larger to reflect new fill data
 
     vm.$onInit = function() {
         vm.updateFill();
@@ -77,11 +71,8 @@
         vm.empty_svg[0].innerHTML = response.data;
         let paths = vm.empty_svg[0].getElementsByClassName('st0');
         let has_fill = false;
-        // console.log(vm.current_fill.id);
-        // console.log(fills.length, 'fill length');
         for (let y = 0; y < vm.fills.length; y++){
           if (vm.fills[y].template_id === template_id) {
-            // console.log('has a fill already');
             has_fill = true;
             vm.current_fill = vm.fills[y];
             if(!(Array.isArray(vm.fills[y].color_array))){
@@ -103,15 +94,12 @@
             color_array: new_color_array.toString(),
             template_id: template_id
           }
-            appService.postFill(1, new_fill_obj).then(function(){
+            appService.postFill(new_fill_obj).then(function(){
               vm.updateFill();
             });
           };
         });
       }
-      // vm.createTemplateThumbnails(template_file_path, 0, template_id, vm.fills);
-
-
 
     vm.getPaths = function(){
       vm.active_svg = document.getElementsByClassName('active_svg');
@@ -136,10 +124,6 @@
         vm.updateFill();
       });
     }
-  //
-  //   vm.save = function(){
-  //     vm.updateFill();
-  //   }
-  // }
+
 }
 }());

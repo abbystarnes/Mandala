@@ -12,21 +12,26 @@
     $locationProvider.html5Mode(true)
 
     $stateProvider
-    // .state({
-    //     name: 'welcome',
-    //     url: '/',
-    //     component: 'welcome',
-    //   })
+    .state({
+        name: 'welcome',
+        url: '/',
+        component: 'welcome',
+      })
     .state({
         name: 'mandala',
-        url: '/',
+        url: '/mandala',
         component: 'mandala',
       })
-      // .state({
-      //   name: 'login',
-      //   url: '/',
-      //   component: 'login',
-      // })
+      .state({
+        name: 'login',
+        url: '/login',
+        component: 'login',
+      })
+      .state({
+        name: 'signup',
+        url: '/signup',
+        component: 'signup',
+      })
       // .state({
       //   name: 'login',
       //   parent: 'myApp',
