@@ -24,5 +24,21 @@
 	<i ng-click="$ctrl.undo()" class="undo material-icons medium">undo</i>
 	<button ng-click="$ctrl.clear()" class=" clear btn blue-grey darken-4">clear</button>
 
-	<i class="share material-icons">publish</i>
-	<i class="collaborate material-icons">people</i>
+	<i class="share-btn material-icons" ng-click="showPublish()">publish</i>
+	<i class="collaborate-btn material-icons" ng-click="showCollaborate()">people</i>
+
+<div id="publish" class="publish mandala-modal z-depth-1">
+	<i class="material-icons mandala-modal-x">cancel</i>
+	<div class="publish-content">
+		<h4>publish modal</h4>
+		<p>A bunch of text</p>
+	</div>
+</div>
+
+<div id="collaborate" class="collaborate mandala-modal z-depth-1">
+	<i class="material-icons mandala-modal-x">cancel</i>
+	<div class="publish-content">
+		<h4>collaborate modal</h4>
+		<p>A bunch of text</p>
+	</div>
+</div>

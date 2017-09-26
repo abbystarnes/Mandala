@@ -152,18 +152,6 @@
       }
     }
 
-    // vm.isDisabled = function(){
-    //   let className
-    //   let undo_arrow = document.getElementsByClassName('undo')[0];
-    //   console.log(undo_arrow);
-    //   if (!vm.stored_array) {
-    //     undo_arrow.className = 'undo-disabled undo material-icons medium';
-    //     className = 'undo-disabled';
-    //   } else {
-    //     undo_arrow.className = 'undo material-icons medium';
-    //   }
-    //   return className;
-    // }
 
-}
+  }
 }());

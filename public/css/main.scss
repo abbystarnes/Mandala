@@ -214,7 +214,7 @@ form {
 .button-collapse {
   content: 'hi';
   color: $blue-grey;
-  bottom: 50%;
+  top: 1em;
   right: -38px;
   position: absolute;
   border: none;
@@ -240,14 +240,38 @@ form {
   color: grey;
 }
 
-.share {
+.share-btn {
   position: absolute;
   right: 56px;
   top: 16px;
 }
 
-.collaborate {
+.collaborate-btn {
   position: absolute;
   right: 16px;
   top: 16px;
+}
+
+.mandala-modal {
+  display: none;
+  position: fixed;
+  height:calc(100vh -32px);
+  width: calc(100vw -32px);
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  background-color: #fff;
+  z-index: 1000;
+}
+
+.hidden {
+  display: none;
+  opacity: 0;
+}
+
+.mandala-modal-x {
+  position: absolute;
+  top: -8px;
+  right: -8px;
 }
