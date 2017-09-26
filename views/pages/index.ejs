@@ -9,8 +9,10 @@
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
   <!-- spectrum color picker -->
+  <link href="https://fonts.googleapis.com/css?family=Lobster+Two|Open+Sans+Condensed:300" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
 
   <script src="/js/main.js"></script>
@@ -22,16 +24,18 @@
   <script src="/js/app.service.js"></script>
   <script src="/js/mandala/mandala.component.js"></script>
   <script src="/js/login/login.component.js"></script>
+  <script src="/js/welcome/welcome.component.js"></script>
+  <script src="/js/signup/signup.component.js"></script>
   <script src="/js/app.config.js"></script>
   <link rel="stylesheet" href="/css/main.css">
 </head>
 
 <body>
-  <input id='colorpicker' />
+  <input class="colorpicker" id='colorpicker' />
   <!-- <ui-view></ui-view> -->
   <div ui-view></div>
   <!-- <mandala></mandala> -->
-  <button id="clear_mandala_btn">clear</button>
+  <!-- <button id="clear_mandala_btn">clear</button> -->
 </body>
 
 </html>
