@@ -21,5 +21,8 @@
 	</div>
 
 
-	<i class="undo material-icons medium">undo</i>
-	<button class=" clear btn blue-grey darken-4">clear</button>
+	<i ng-click="$ctrl.undo()" class="undo material-icons medium">undo</i>
+	<button ng-click="$ctrl.clear()" class=" clear btn blue-grey darken-4">clear</button>
+
+	<i class="share material-icons">publish</i>
+	<i class="collaborate material-icons">people</i>

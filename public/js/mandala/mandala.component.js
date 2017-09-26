@@ -18,6 +18,7 @@
     vm.current_file_path;
     vm.current_template_id;
     vm.paths;
+    vm.stored_array;
 
 
     vm.$onInit = function() {
@@ -62,6 +63,20 @@
         }
       })
     }
+
+    vm.clear = function(){
+      console.log('clear');
+        vm.empty_svg = document.getElementsByClassName('active_svg');
+        let paths = vm.empty_svg[0].getElementsByClassName('st0');
+        let new_array = [];
+        for (let x = 0; x < paths.length; x++){
+          new_array.push('#FFF');
+        }
+        appService.patchFill(vm.current_fill.fill_id, new_array.toString()).then(function(){
+          vm.updateFill();
+        });
+      };
+
 
     vm.selectMandala = function(template_id, template_file_path){
       // console.log('selecting');
@@ -119,6 +134,7 @@
     }
 
     vm.changeColor = function(){
+      vm.stored_array = vm.getPaths();
       let current_color = document.getElementById('colorpicker').value;
       this.style.fill = current_color;
       let new_array = vm.getPaths();
@@ -126,6 +142,28 @@
         vm.updateFill();
       });
     }
+
+    vm.undo = function(){
+      if (vm.stored_array){
+        let new_array = vm.stored_array;
+        appService.patchFill(vm.current_fill.fill_id, new_array.toString()).then(function(){
+          vm.updateFill();
+        });
+      }
+    }
+
+    // vm.isDisabled = function(){
+    //   let className
+    //   let undo_arrow = document.getElementsByClassName('undo')[0];
+    //   console.log(undo_arrow);
+    //   if (!vm.stored_array) {
+    //     undo_arrow.className = 'undo-disabled undo material-icons medium';
+    //     className = 'undo-disabled';
+    //   } else {
+    //     undo_arrow.className = 'undo material-icons medium';
+    //   }
+    //   return className;
+    // }
 
 }
 }());

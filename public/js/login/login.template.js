@@ -20,7 +20,7 @@
   <span ng-if="$ctrl.isValid('$ctrl.user.hashed_pwd')" class="help-block">Required Field</span>
   </div>
 
-  <div  class="field" class="form-group">
+  <div class="field form-group">
     <button class="waves-effect waves-light btn blue-grey btn btn-primary" ng-class="$ctrl.isDisabled()" ng-disabled="$ctrl.isDisabled()" type="submit">
       log in
   </button>
