@@ -16,6 +16,8 @@
       'hashed_pwd' : ''
     };
     vm.$onInit = function() {
+      let color_picker = document.getElementsByClassName('sp-replacer')[0];
+      color_picker.className = 'sp-replacer';
       // appService.getFills.then(function(fills){
       //   appService.getTemplates.then(function(){
       //     for (let x = 0; x < vm.templates.length; x++){

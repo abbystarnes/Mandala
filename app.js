@@ -2,6 +2,7 @@
 
 const express = require('express');
 const app = express();
+// const io = require('socket.io').listen(app);
 const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 const routes = require('route');
@@ -18,6 +19,10 @@ const methodOverride = require('method-override');
 // const saltRounds = 10;
 
 // var GoogleAuth = require('google-auth-library');
+// io.configure(function () {
+//   io.set("transports", ["xhr-polling"]);
+//   io.set("polling duration", 10);
+// });
 
 app.use(methodOverride('_method'));
 // app.use(cookieParser('secret'))

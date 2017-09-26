@@ -21,6 +21,8 @@
 
 
     vm.$onInit = function() {
+        let color_picker = document.getElementsByClassName('sp-replacer')[0];
+        color_picker.className = 'sp-replacer show';
         vm.updateFill();
     }
 
